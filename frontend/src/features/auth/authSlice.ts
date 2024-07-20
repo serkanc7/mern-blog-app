@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUser } from '../../models/user';
 import { RootState } from '../../app/store';
-import { loginUser, registerUser } from './authActions';
+import { loginUser, registerUser, updateUserProfile } from './authActions';
 
 export interface AuthState {
   user: IUser | null;
@@ -49,6 +49,18 @@ const authSlice = createSlice({
       .addCase(registerUser.rejected, (state, action: PayloadAction<string | undefined>) => {
         state.loading = false;
         state.error = action.payload || 'Failed to register';
+      })
+      .addCase(updateUserProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action: PayloadAction<IUser>) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(updateUserProfile.rejected, (state, action: PayloadAction<string | undefined>) => {
+        state.loading = false;
+        state.error = action.payload || 'Failed to update profile';
       });
   },
 });

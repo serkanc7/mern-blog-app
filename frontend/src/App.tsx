@@ -1,10 +1,11 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
-import Layout from './layouts/Layout';
+import { Layout, RequireAuth }  from './layouts/Layout';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import { useSelector } from 'react-redux';
 import { RootState } from './app/store';
+import ProfilePage from './pages/ProfilePage';
 
 
 function App() {
@@ -28,10 +29,20 @@ function App() {
         },
         {
           path: "/register",
-          element: <RegisterPage />
+          element: user ? <Navigate to="/" /> : <RegisterPage />
         }
       ],
-    }
+    },
+    {
+      path: "/",
+      element: <RequireAuth />,
+      children: [
+        {
+          path: "/profile",
+          element: <ProfilePage />
+        }
+      ],
+    },
   ]);
 
   return <RouterProvider router={router} />;

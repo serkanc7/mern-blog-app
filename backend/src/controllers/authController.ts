@@ -47,3 +47,40 @@ export const authUser = async (req: Request, res: Response) => {
     res.status(401).json({ message: 'Invalid email or password' });
   }
 };
+
+export const getUserProfile = async (req: Request, res: Response) => {
+  const user = await User.findById(req.user?._id);
+
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+};
+
+export const updateUserProfile = async (req:Request , res:Response) => {
+  const user = await User.findById(req.user?._id);
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.profilePicture = req.body.profilePicture || user.profilePicture;
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      profilePicture: updatedUser.profilePicture,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+};

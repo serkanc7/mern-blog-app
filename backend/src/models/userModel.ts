@@ -5,14 +5,18 @@ export interface IUser extends Document {
   _id: string;
   name: string;
   email: string;
+  isAdmin: boolean;
   password: string;
+  profilePicture?: string;
   matchPassword: (enteredPassword: string) => Promise<boolean>;
 }
 
 const userSchema = new Schema<IUser>({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  profilePicture: { type:String, required: false },
+  isAdmin: { type:Boolean, default: false }
 }, {
   timestamps: true
 });

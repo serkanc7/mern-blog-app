@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { IUser } from '../../models/user';
 
-const API_URL = 'http://localhost:5001/api/auth';
+const API_URL = `http://localhost:5001/api/auth`;
 
 export const loginUser = createAsyncThunk<
   IUser,
@@ -30,6 +30,27 @@ export const registerUser = createAsyncThunk<
     const response = await axios.post(`${API_URL}/register`, userData);
     localStorage.setItem('user', JSON.stringify(response.data));
     return response.data as IUser;
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+    return thunkAPI.rejectWithValue('An unknown error occurred');
+  }
+});
+
+export const updateUserProfile = createAsyncThunk<
+  IUser,
+  { name: string; profilePicture: string },
+  { rejectValue: string }
+>('auth/updateProfile', async (userData, thunkAPI) => {
+  try {
+    const response = await axios.put(`${API_URL}/profile`, userData, {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem('user') || '{}').token}`,
+      },
+    });
+    localStorage.setItem('user', JSON.stringify(response.data));
+    return response.data;
   } catch (error: any) {
     if (error.response && error.response.data) {
       return thunkAPI.rejectWithValue(error.response.data.message);
