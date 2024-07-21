@@ -41,6 +41,7 @@ export const authUser = async (req: Request, res: Response) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      profilePicture: user.profilePicture,
       token: generateToken(user._id),
     });
   } else {
@@ -56,6 +57,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      profilePicture: user.profilePicture
     });
   } else {
     res.status(404);
