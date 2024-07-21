@@ -26,7 +26,22 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ['Post'],
     }),
+    getUserPosts: builder.query({
+      query: () => '/posts/user',
+      providesTags: ['Post'],
+    }),
+    getPostBySlug: builder.query({
+      query: (slug) => `/posts/${slug}`,
+      providesTags: ['Post'],
+    }),
+    updatePost: builder.mutation({
+      query: ({id, ...data}) => ({
+        url: `/posts/${id}`,
+        method: 'PUT',
+        body: data
+      })
+    })
   }),
 });
 
-export const { useGetPostsQuery, useAddPostMutation } = apiSlice;
+export const { useGetPostsQuery, useAddPostMutation, useGetUserPostsQuery, useUpdatePostMutation, useGetPostBySlugQuery } = apiSlice;

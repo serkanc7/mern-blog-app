@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserProfile } from '../features/auth/authActions';
 import { RootState, AppDispatch } from '../app/store';
+import { useNavigate } from 'react-router';
 
 const ProfilePage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.auth.user);
   const loading = useSelector((state: RootState) => state.auth.loading);
   const error = useSelector((state: RootState) => state.auth.error);
+  const navigate = useNavigate();
+
 
   const [name, setName] = useState(user?.name || '');
   const [profilePicture, setProfilePicture] = useState(user?.profilePicture || '');
@@ -82,6 +85,14 @@ const ProfilePage = () => {
         </button>
         {error && <p className="mt-4 text-center text-red-500">{error}</p>}
       </form>
+      {user?.isAdmin && <div className="mt-6">
+        <button
+          className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+          onClick={() => navigate('/my-posts')}
+        >
+          My Posts
+        </button>
+      </div>}
     </div>
   );
 };

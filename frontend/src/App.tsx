@@ -8,6 +8,8 @@ import { RootState } from './app/store';
 import ProfilePage from './pages/ProfilePage';
 import AddPostPage from './pages/AddPostPage';
 import PostListPage from './pages/PostListPage';
+import UserPostsPage from './pages/UserPostsPage';
+import PostDetailPage from './pages/PostDetailPage';
 
 
 function App() {
@@ -36,6 +38,10 @@ function App() {
         {
           path: "/posts",
           element: <PostListPage />
+        },
+        {
+          path: "/posts/:slug",
+          element: <PostDetailPage />
         }
       ],
     },
@@ -50,6 +56,10 @@ function App() {
         {
           path: "/add-new-post",
           element: <AddPostPage />
+        },
+        {
+          path: "/my-posts",
+          element: <UserPostsPage/>
         }
       ], 
     },
