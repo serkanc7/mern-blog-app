@@ -6,6 +6,8 @@ import HomePage from './pages/HomePage';
 import { useSelector } from 'react-redux';
 import { RootState } from './app/store';
 import ProfilePage from './pages/ProfilePage';
+import AddPostPage from './pages/AddPostPage';
+import PostListPage from './pages/PostListPage';
 
 
 function App() {
@@ -30,6 +32,10 @@ function App() {
         {
           path: "/register",
           element: user ? <Navigate to="/" /> : <RegisterPage />
+        },
+        {
+          path: "/posts",
+          element: <PostListPage />
         }
       ],
     },
@@ -40,8 +46,12 @@ function App() {
         {
           path: "/profile",
           element: <ProfilePage />
+        },
+        {
+          path: "/add-new-post",
+          element: <AddPostPage />
         }
-      ],
+      ], 
     },
   ]);
 

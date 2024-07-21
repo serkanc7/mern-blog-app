@@ -17,12 +17,13 @@ const Header = () => {
     <header className="bg-gray-800 text-white">
       <div className="container mx-auto px-4 py-5 flex justify-between items-center">
         <div className="text-2xl font-bold">
-          <Link to="/">Personal Assistant</Link>
+          <Link to="/">My Blog</Link>
         </div>
         <nav className="hidden md:flex space-x-4">
-          <Link to="/" className="hover:underline">Home</Link>
+          <Link to="/posts" className="hover:underline">Posts</Link>
           {user ? (
-            <>
+            <> 
+              {user.isAdmin && <Link to="/add-new-post" className='hover:underline'>Add Post</Link>}
               <Link to="/profile" className="hover:underline">Profile</Link>
               <button onClick={handleLogout} className="hover:underline">Logout</button>
             </>
@@ -41,9 +42,10 @@ const Header = () => {
       </div>
       {isOpen && (
         <nav className="md:hidden bg-gray-800 text-white">
-          <Link to="/" className="block px-4 py-2 hover:underline" onClick={() => setIsOpen(false)}>Home</Link>
+          <Link to="/posts" className="block px-4 py-2 hover:underline" onClick={() => setIsOpen(false)}>Posts</Link>
           {user ? (
             <>
+               {user.isAdmin && <Link to="/add-new-post" className='hover:underline'>Add Post</Link>}
               <Link to="/profile" className="block px-4 py-2 hover:underline" onClick={() => setIsOpen(false)}>Profile</Link>
               <button onClick={handleLogout} className="block px-4 py-2 hover:underline">Logout</button>
             </>
