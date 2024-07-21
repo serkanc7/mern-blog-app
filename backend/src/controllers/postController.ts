@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import Post from '../models/postModel';
 import slugify from 'slugify';
 
-// Post oluşturma
 const createPost = asyncHandler(async (req: Request, res: Response) => {
   const { title, content, image } = req.body;
   const slug = slugify(title, { lower: true, strict: true });
@@ -28,7 +27,6 @@ const getPosts = asyncHandler(async (req: Request, res: Response) => {
 
 const getPostBySlug = asyncHandler(async (req: Request, res: Response) => {
   const post = await Post.findOne({ slug: req.params.slug }).populate('user', 'name profilePicture');
-
   if (post) {
     res.json(post);
   } else {
@@ -36,4 +34,26 @@ const getPostBySlug = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-export { createPost, getPosts, getPostBySlug };
+const updatePost = asyncHandler(async (req: Request, res: Response) => {
+  const { title, content, image } = req.body;
+  const post = await Post.findById(req.params.id);
+
+  if (post) {
+    post.title = title || post.title;
+    post.content = content || post.content;
+    post.image = image || post.image;
+    post.slug = slugify(post.title, { lower: true, strict: true });
+
+    const updatedPost = await post.save();
+    res.json(updatedPost);
+  } else {
+    res.status(404).json({ message: 'Post not found' });
+  }
+});
+
+const getUserPosts = asyncHandler(async (req: Request, res: Response) => {
+  const posts = await Post.find({ user: req.user?._id }).populate('user', 'name profilePicture');
+  res.json(posts);
+});
+
+export { createPost, getPosts, getPostBySlug, updatePost, getUserPosts };
