@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUser } from '../../models/user';
+import { IUser } from '../../types/types';
 import { RootState } from '../../app/store';
 import { loginUser, registerUser, updateUserProfile } from './authActions';
 

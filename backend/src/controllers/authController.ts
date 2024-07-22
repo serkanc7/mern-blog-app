@@ -50,22 +50,6 @@ export const authUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserProfile = async (req: Request, res: Response) => {
-  const user = await User.findById(req.user?._id);
-
-  if (user) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      profilePicture: user.profilePicture
-    });
-  } else {
-    res.status(404);
-    throw new Error('User not found');
-  }
-};
-
 export const updateUserProfile = async (req:Request , res:Response) => {
   const user = await User.findById(req.user?._id);
 
@@ -80,6 +64,7 @@ export const updateUserProfile = async (req:Request , res:Response) => {
       name: updatedUser.name,
       email: updatedUser.email,
       profilePicture: updatedUser.profilePicture,
+      isAdmin: updatedUser.isAdmin,
       token: generateToken(updatedUser._id),
     });
   } else {

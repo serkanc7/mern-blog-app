@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { IUser } from '../../models/user';
+import { IUser } from '../../types/types';
 
-const API_URL = `http://localhost:5001/api/auth`;
+const API_URL = `${import.meta.env.VITE_API_URL}/auth`;
 
 export const loginUser = createAsyncThunk<
   IUser,
