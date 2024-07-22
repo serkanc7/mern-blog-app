@@ -1,0 +1,69 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./backend
+
+    - name: Build the project
+      run: npm run build
+      working-directory: ./backend
+
+    - name: Run tests
+      run: npm test
+      working-directory: ./backend
+
+    - name: Build Docker image
+      run: docker build -t my-backend ./backend
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        PORT: 5001
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    needs: build-backend
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./frontend
+
+    - name: Build the project
+      run: npm run build
+      working-directory: ./frontend
+
+    - name: Run tests
+      run: npm test
+      working-directory: ./frontend
+
+    - name: Build Docker image
+      run: docker build -t my-frontend ./frontend
+      env:
+        VITE_API_URL: ${{ secrets.VITE_API_URL }}

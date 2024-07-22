@@ -144,7 +144,6 @@ node_modules/
 build/
 
 # Hidden files
-.*
 !.gitignore
 !.env
 .env
