@@ -13,6 +13,7 @@ export interface IComment {
   content: string;
   rating: number;
   createdAt: Date;
+  updatedAt: Date
 }
 
 export interface IPost {
@@ -24,4 +25,6 @@ export interface IPost {
   slug: string;
   comments: IComment[];
   averageRating: number;
+  createdAt: Date,
+  updatedAt: Date
 }

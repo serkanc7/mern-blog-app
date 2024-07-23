@@ -16,8 +16,6 @@ function App() {
 
   const user = useSelector((state:RootState) => state.auth.user);
 
-  console.log(user);
-  
   const router = createBrowserRouter([
     {
       path: "/",

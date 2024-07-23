@@ -1,17 +1,6 @@
 import { useGetPostsQuery } from '../features/api/apiSlice';
-import { Link } from 'react-router-dom';
-
-interface Post {
-  _id: string;
-  title: string;
-  content: string;
-  image?: string;
-  slug: string;
-  user: {
-    name: string;
-    profilePicture?: string;
-  };
-}
+import { IPost } from '../types/types';
+import PostCard from '../components/PostCard';
 
 const PostListPage: React.FC = () => {
   const { data: posts = [], error, isLoading } = useGetPostsQuery({});
@@ -37,23 +26,9 @@ const PostListPage: React.FC = () => {
       {isLoading && <p>Loading...</p>}
       {errorMessage}
       <ul>
-        {posts.map((post: Post) => (
+        {posts.map((post: IPost) => (
           <li key={post._id} className="mb-4 border-b pb-4">
-            <Link to={`/posts/${post.slug}`} className="text-xl text-blue-500">
-              {post.title}
-            </Link>
-            <p>{post.content}</p>
-            {post.image && <img src={post.image} alt={post.title} className="mt-2" />}
-            <div className="flex items-center mt-2">
-              {post.user.profilePicture && (
-                <img
-                  src={post.user.profilePicture}
-                  alt={post.user.name}
-                  className="w-10 h-10 rounded-full mr-4"
-                />
-              )}
-              <span>{post.user.name}</span>
-            </div>
+            <PostCard post={post} />
           </li>
         ))}
       </ul>
