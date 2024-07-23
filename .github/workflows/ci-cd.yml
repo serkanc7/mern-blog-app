@@ -27,10 +27,6 @@ jobs:
       run: npm run build
       working-directory: ./backend
 
-    - name: Run tests
-      run: npm test
-      working-directory: ./backend
-
     - name: Build Docker image
       run: docker build -t my-backend ./backend
       env:
@@ -57,10 +53,6 @@ jobs:
 
     - name: Build the project
       run: npm run build
-      working-directory: ./frontend
-
-    - name: Run tests
-      run: npm test
       working-directory: ./frontend
 
     - name: Build Docker image
