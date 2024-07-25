@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "types": ["jest", "@testing-library/jest-dom"],
 
     /* Bundler mode */
     "moduleResolution": "node",
@@ -25,6 +26,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "./jest.setup.ts"],
   "exclude": ["node_modules", "dist"]
 }
