@@ -1,6 +1,6 @@
-import { useGetPostsQuery } from '../features/api/apiSlice';
-import { IPost } from '../types/types';
-import PostCard from '../components/PostCard';
+import { useGetPostsQuery } from '../../features/api/apiSlice';
+import { IPost } from '../../types/types';
+import PostCard from '../../components/PostCard/PostCard';
 
 const PostListPage: React.FC = () => {
   const { data: posts = [], error, isLoading } = useGetPostsQuery({});

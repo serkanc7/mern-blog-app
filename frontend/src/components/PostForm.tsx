@@ -6,10 +6,9 @@ import { useAddCommentMutation } from "../features/api/apiSlice";
 import StarRating from "./StarRating";
 
 interface IFormInputs {
-    content: string;
-    rating?: number;
-  }
-  
+  content: string;
+  rating?: number;
+}
 
 interface PostFormProps {
   postId: string;
@@ -40,8 +39,12 @@ const PostForm: React.FC<PostFormProps> = ({ postId, onSubmitSuccess }) => {
       const result = await addComment({ postId, ...data, rating }).unwrap();
       onSubmitSuccess(result.message);
       reset();
-    } catch (error: any) {
-      onSubmitSuccess("Failed to add comment. Please try again.");
+    } catch (error) {
+      if (error && typeof error === "object" && "message" in error) {
+        onSubmitSuccess((error as { message: string }).message);
+      } else {
+        onSubmitSuccess("Failed to add comment. Please try again.");
+      }
     }
   };
 
@@ -67,7 +70,10 @@ const PostForm: React.FC<PostFormProps> = ({ postId, onSubmitSuccess }) => {
       </div>
       <div className="mb-4">
         <label className="block text-gray-700">Rating</label>
-        <StarRating rating={rating} onRatingChange={(rating) => setRating(rating)} />
+        <StarRating
+          rating={rating}
+          onRatingChange={(rating) => setRating(rating)}
+        />
         <Controller
           name="rating"
           control={control}

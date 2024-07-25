@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from './app/store';
 import ProfilePage from './pages/ProfilePage';
 import AddPostPage from './pages/AddPostPage';
-import PostListPage from './pages/PostListPage';
+import PostListPage from './pages/PostListPage/PostListPage';
 import UserPostsPage from './pages/UserPostsPage';
 import PostDetailPage from './pages/PostDetailPage';
 

@@ -4,6 +4,10 @@ import { IUser } from '../../types/types';
 
 const API_URL = `${import.meta.env.VITE_API_URL}/auth`;
 
+interface CustomError {
+  message: string;
+}
+
 export const loginUser = createAsyncThunk<
   IUser,
   { email: string; password: string },
@@ -13,9 +17,9 @@ export const loginUser = createAsyncThunk<
     const response = await axios.post(`${API_URL}/login`, credentials);
     localStorage.setItem('user', JSON.stringify(response.data));
     return response.data;
-  } catch (error: any) {
-    if (error.response && error.response.data) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return thunkAPI.rejectWithValue((error.response.data as CustomError).message);
     }
     return thunkAPI.rejectWithValue('An unknown error occurred');
   }
@@ -30,9 +34,9 @@ export const registerUser = createAsyncThunk<
     const response = await axios.post(`${API_URL}/register`, userData);
     localStorage.setItem('user', JSON.stringify(response.data));
     return response.data as IUser;
-  } catch (error: any) {
-    if (error.response && error.response.data) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return thunkAPI.rejectWithValue((error.response.data as CustomError).message);
     }
     return thunkAPI.rejectWithValue('An unknown error occurred');
   }
@@ -51,9 +55,9 @@ export const updateUserProfile = createAsyncThunk<
     });
     localStorage.setItem('user', JSON.stringify(response.data));
     return response.data;
-  } catch (error: any) {
-    if (error.response && error.response.data) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return thunkAPI.rejectWithValue((error.response.data as CustomError).message);
     }
     return thunkAPI.rejectWithValue('An unknown error occurred');
   }
